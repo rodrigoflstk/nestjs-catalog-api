@@ -9,7 +9,6 @@ import {
   Logger,
   UseGuards,
   Query,
-  NotFoundException,
   ParseUUIDPipe,
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
