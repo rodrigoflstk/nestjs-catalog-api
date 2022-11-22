@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValidationSchema } from './utils/config.schema';
+import { MovieModule } from './modules/movie/movie.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { configValidationSchema } from './utils/config.schema';
       envFilePath: `.env.stage.${process.env.STAGE}`,
       validationSchema: configValidationSchema,
     }),
+    MovieModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -32,6 +34,7 @@ import { configValidationSchema } from './utils/config.schema';
       },
     }),
     AuthModule,
+    MovieModule,
   ],
 })
 export class AppModule {}
