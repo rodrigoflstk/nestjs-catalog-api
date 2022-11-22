@@ -1,6 +1,12 @@
 import { Exclude } from 'class-transformer';
 import { User } from 'src/modules/auth/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Movie {
@@ -15,6 +21,15 @@ export class Movie {
 
   @Column()
   genre: string;
+
+  @Column()
+  cast: string;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  published_at: Date;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @ManyToOne((_type) => User, (user) => user.movie, { eager: false })

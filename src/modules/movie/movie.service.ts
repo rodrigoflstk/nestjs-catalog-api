@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { User } from '../auth/entities/user.entity';
 import { CreateMovieDto } from './dtos/create-movie.dto';
 import { GetMovieFilterDto } from './dtos/get-movie.dto';
+import { UpdateMovieDto } from './dtos/update-movie.dto';
 import { Movie } from './entities/movie.entity';
 
 @Injectable()
@@ -19,12 +20,13 @@ export class MovieService {
   ) {}
 
   async create(createMovieDto: CreateMovieDto, user: User): Promise<Movie> {
-    const { name, description, genre } = createMovieDto;
+    const { name, description, genre, cast } = createMovieDto;
 
     const movie = this.movieRepository.create({
       name,
       description,
       genre,
+      cast,
       user,
     });
 
@@ -64,7 +66,6 @@ export class MovieService {
     const foundMovie = await this.movieRepository.findOne({
       where: { id, user },
     });
-    // const idLength = foundMovie.id.length;
 
     if (!foundMovie) {
       throw new NotFoundException('this movie does not exists');
@@ -72,11 +73,23 @@ export class MovieService {
     return foundMovie;
   }
 
-  // update(id: number, updateMovieDto: UpdateMovieDto) {
-  //   return `This action updates a #${id} movie`;
-  // }
+  async update(
+    id: string,
+    user: User,
+    updateMovieDto: UpdateMovieDto,
+  ): Promise<Movie> {
+    const movie = await this.findOne(id, user);
 
-  remove(id: number) {
-    return `This action removes a #${id} movie`;
+    const { description } = updateMovieDto;
+
+    movie.description = description;
+
+    await this.movieRepository.save(movie);
+
+    return movie;
+  }
+
+  async remove(id: string, user: User): Promise<void> {
+    await this.movieRepository.delete({ id, user });
   }
 }

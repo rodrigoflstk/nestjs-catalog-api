@@ -3,7 +3,7 @@ import {
   Get,
   Post,
   Body,
-  // Patch,
+  Patch,
   Param,
   Delete,
   Logger,
@@ -18,7 +18,7 @@ import { GetUser } from '../auth/get-user.decorator';
 import { Movie } from './entities/movie.entity';
 import { User } from '../auth/entities/user.entity';
 import { GetMovieFilterDto } from './dtos/get-movie.dto';
-// import { UpdateMovieDto } from './dtos/update-movie.dto';
+import { UpdateMovieDto } from './dtos/update-movie.dto';
 
 @Controller('movie')
 @UseGuards(AuthGuard())
@@ -31,11 +31,13 @@ export class MovieController {
     @Body() createMovieDto: CreateMovieDto,
     @GetUser() user: User,
   ): Promise<Movie> {
-    this.logger.verbose(`"${user.username}" has created a new movie.`);
+    this.logger.verbose(
+      `"${user.username}" has created a new movie Named: ${createMovieDto.name}.`,
+    );
     return this.movieService.create(createMovieDto, user);
   }
 
-  @Get()
+  @Get('list/all')
   findAll(
     @Query() getMovieFilterDto: GetMovieFilterDto,
     @GetUser() user: User,
@@ -44,22 +46,31 @@ export class MovieController {
     return this.movieService.findAll(getMovieFilterDto, user);
   }
 
-  @Get(':uuid')
+  @Get('list/:uuid')
   findOne(
     @Param('uuid', new ParseUUIDPipe()) uuid: string,
     @GetUser() user: User,
   ): Promise<Movie> {
-    this.logger.verbose(`"${user.username}" is getting a movie.`);
+    this.logger.verbose(`"${user.username}" is getting a movie ID: ${uuid}}.`);
     return this.movieService.findOne(uuid, user);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateMovieDto: UpdateMovieDto) {
-  //   return this.movieService.update(+id, updateMovieDto);
-  // }
+  @Patch('update/:uuid')
+  update(
+    @Param('uuid') uuid: string,
+    @GetUser() user: User,
+    @Body() updateMovieDto: UpdateMovieDto,
+  ) {
+    this.logger.verbose(`"${user.username}" is updating a movie ID: ${uuid}}.`);
+    return this.movieService.update(uuid, user, updateMovieDto);
+  }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.movieService.remove(+id);
+  @Delete('delete/:uuid')
+  remove(
+    @Param('uuid', new ParseUUIDPipe()) uuid: string,
+    @GetUser() user: User,
+  ) {
+    this.logger.verbose(`"${user.username}" is deleting a movie ID: ${uuid}}.`);
+    return this.movieService.remove(uuid, user);
   }
 }
