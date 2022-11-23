@@ -10,6 +10,7 @@ import { AuthCredentialsDTO } from './dtos/auth.credentials-dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { CreateUserDto } from './dtos/create.user-dto';
 
 interface JwtPayload {
   username: string;
@@ -23,14 +24,16 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signUp(authCredentialsDTO: AuthCredentialsDTO): Promise<void> {
-    const { username, password } = authCredentialsDTO;
+  async signUp(createUserDto: CreateUserDto): Promise<void> {
+    const { username, password, email, name } = createUserDto;
 
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = this.usersRepository.create({
       username,
+      name,
+      email,
       password: hashedPassword,
     });
 
@@ -38,7 +41,7 @@ export class AuthService {
       await this.usersRepository.save(user);
     } catch (error) {
       if (error.code === '23505') {
-        throw new ConflictException('Username Already Exists!');
+        throw new ConflictException('Username or email Already Exists!');
       } else {
         throw new InternalServerErrorException();
       }

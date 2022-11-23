@@ -1,6 +1,7 @@
 import { Controller, Logger, Post, Body } from '@nestjs/common';
 import { AuthCredentialsDTO } from './dtos/auth.credentials-dto';
 import { AuthService } from './auth.service';
+import { CreateUserDto } from './dtos/create.user-dto';
 
 @Controller('user')
 export class AuthController {
@@ -8,11 +9,9 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/signup')
-  signUp(@Body() authCredentialsDTO: AuthCredentialsDTO): Promise<void> {
-    this.logger.verbose(
-      ` New registered user: "${authCredentialsDTO.username}"`,
-    );
-    return this.authService.signUp(authCredentialsDTO);
+  signUp(@Body() createUserDto: CreateUserDto): Promise<void> {
+    this.logger.verbose(` New registered user: "${createUserDto.username}"`);
+    return this.authService.signUp(createUserDto);
   }
 
   @Post('/signin')
