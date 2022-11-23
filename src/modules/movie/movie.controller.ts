@@ -14,9 +14,9 @@ import {
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from './dtos/create-movie.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { GetUser } from '../auth/get-user.decorator';
+import { GetUser } from '../auth/user/decorators/get-user.decorator';
 import { Movie } from './entities/movie.entity';
-import { User } from '../auth/entities/user.entity';
+import { User } from '../auth/user/entities/user.entity';
 import { GetMovieFilterDto } from './dtos/get-movie.dto';
 import { UpdateMovieDto } from './dtos/update-movie.dto';
 
