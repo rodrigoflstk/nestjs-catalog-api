@@ -12,8 +12,6 @@ import {
   ParseUUIDPipe,
   UseInterceptors,
   CacheInterceptor,
-  CacheTTL,
-  CacheKey,
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from './dtos/create-movie.dto';
@@ -44,8 +42,6 @@ export class MovieController {
     return this.movieService.create(createMovieDto);
   }
 
-  @CacheTTL(5)
-  @CacheKey('custom_key')
   @Get('list/all')
   findAll(
     @Query() getMovieFilterDto: GetMovieFilterDto,

@@ -1,11 +1,9 @@
-import { CacheInterceptor, CacheModule, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValidationSchema } from './utils/config.schema';
 import { MovieModule } from './modules/movie/movie.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-// import * as redisStore from 'cache-manager-redis-store';
 
 @Module({
   imports: [
@@ -37,17 +35,6 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     }),
     AuthModule,
     MovieModule,
-    CacheModule.register({
-      ttl: 5,
-      max: 100,
-      isGlobal: true,
-    }),
-  ],
-  providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor,
-    },
   ],
 })
 export class AppModule {}
