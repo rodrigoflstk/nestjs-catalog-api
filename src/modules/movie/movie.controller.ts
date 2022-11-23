@@ -34,7 +34,7 @@ export class MovieController {
     this.logger.verbose(
       `"${user.username}" has created a new movie Named: ${createMovieDto.name}.`,
     );
-    return this.movieService.create(createMovieDto, user);
+    return this.movieService.create(createMovieDto);
   }
 
   @Get('list/all')
@@ -43,34 +43,31 @@ export class MovieController {
     @GetUser() user: User,
   ): Promise<Movie[]> {
     this.logger.verbose(`"${user.username}" is getting all movies.`);
-    return this.movieService.findAll(getMovieFilterDto, user);
+    return this.movieService.findAll(getMovieFilterDto);
   }
 
-  @Get('list/:uuid')
+  @Get('list/:id')
   findOne(
-    @Param('uuid', new ParseUUIDPipe()) uuid: string,
+    @Param('id', new ParseUUIDPipe()) id: string,
     @GetUser() user: User,
   ): Promise<Movie> {
-    this.logger.verbose(`"${user.username}" is getting a movie ID: ${uuid}}.`);
-    return this.movieService.findOne(uuid, user);
+    this.logger.verbose(`"${user.username}" is getting a movie ID: ${id}.`);
+    return this.movieService.findOneMovie(id);
   }
 
-  @Patch('update/:uuid')
+  @Patch('update/:id')
   update(
-    @Param('uuid') uuid: string,
+    @Param('id', new ParseUUIDPipe()) id: string,
     @GetUser() user: User,
     @Body() updateMovieDto: UpdateMovieDto,
   ) {
-    this.logger.verbose(`"${user.username}" is updating a movie ID: ${uuid}}.`);
-    return this.movieService.update(uuid, user, updateMovieDto);
+    this.logger.verbose(`"${user.username}" is updating a movie ID: ${id}.`);
+    return this.movieService.update(id, updateMovieDto);
   }
 
-  @Delete('delete/:uuid')
-  remove(
-    @Param('uuid', new ParseUUIDPipe()) uuid: string,
-    @GetUser() user: User,
-  ) {
-    this.logger.verbose(`"${user.username}" is deleting a movie ID: ${uuid}}.`);
-    return this.movieService.remove(uuid, user);
+  @Delete('delete/:id')
+  remove(@Param('id', new ParseUUIDPipe()) id: string, @GetUser() user: User) {
+    this.logger.verbose(`"${user.username}" is deleting a movie ID: ${id}.`);
+    return this.movieService.remove(id, user);
   }
 }

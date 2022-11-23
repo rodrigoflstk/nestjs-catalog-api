@@ -19,16 +19,8 @@ export class MovieService {
     private movieRepository: Repository<Movie>,
   ) {}
 
-  async create(createMovieDto: CreateMovieDto, user: User): Promise<Movie> {
-    const { name, description, genre, cast } = createMovieDto;
-
-    const movie = this.movieRepository.create({
-      name,
-      description,
-      genre,
-      cast,
-      user,
-    });
+  async create(createMovieDto: CreateMovieDto): Promise<Movie> {
+    const movie = this.movieRepository.create(createMovieDto);
 
     try {
       await this.movieRepository.save(movie);
@@ -42,14 +34,10 @@ export class MovieService {
     }
   }
 
-  async findAll(
-    getMovieFilterDto: GetMovieFilterDto,
-    user: User,
-  ): Promise<Movie[]> {
+  async findAll(getMovieFilterDto: GetMovieFilterDto): Promise<Movie[]> {
     const { search } = getMovieFilterDto;
 
     const query = this.movieRepository.createQueryBuilder('movie');
-    query.where({ user });
 
     if (search) {
       query.andWhere(
@@ -62,23 +50,20 @@ export class MovieService {
     return movie;
   }
 
-  async findOne(id: string, user: User): Promise<Movie> {
-    const foundMovie = await this.movieRepository.findOne({
-      where: { id, user },
+  async findOneMovie(id: string): Promise<Movie> {
+    const movie = await this.movieRepository.findOne({
+      where: { id },
     });
 
-    if (!foundMovie) {
+    if (!movie) {
       throw new NotFoundException('this movie does not exists');
     }
-    return foundMovie;
+
+    return movie;
   }
 
-  async update(
-    id: string,
-    user: User,
-    updateMovieDto: UpdateMovieDto,
-  ): Promise<Movie> {
-    const movie = await this.findOne(id, user);
+  async update(id: string, updateMovieDto: UpdateMovieDto): Promise<Movie> {
+    const movie = await this.findOneMovie(id);
 
     const { description } = updateMovieDto;
 

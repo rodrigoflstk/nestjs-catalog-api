@@ -25,10 +25,7 @@ export class Movie {
   @Column()
   cast: string;
 
-  @CreateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
-  })
+  @CreateDateColumn()
   published_at: Date;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
