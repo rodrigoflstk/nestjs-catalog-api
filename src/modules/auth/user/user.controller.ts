@@ -1,10 +1,10 @@
 import { Controller, Logger, Post, Body } from '@nestjs/common';
 import { AuthCredentialsDTO } from './dtos/auth.credentials-dto';
-import { AuthService } from './auth.service';
+import { AuthService } from './user.service';
 import { CreateUserDto } from './dtos/create.user-dto';
 
 @Controller('user')
-export class AuthController {
+export class UserController {
   private logger = new Logger('AuthController');
   constructor(private authService: AuthService) {}
 
