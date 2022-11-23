@@ -2,7 +2,9 @@ import { Controller, Logger, Post, Body } from '@nestjs/common';
 import { AuthCredentialsDTO } from './dtos/auth.credentials-dto';
 import { AuthService } from './user.service';
 import { CreateUserDto } from './dtos/create.user-dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User - Endpoints')
 @Controller('user')
 export class UserController {
   private logger = new Logger('AuthController');

@@ -13,9 +13,10 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Movie Catalog API')
-    .setDescription('Complete description and documentation')
+    .setDescription(
+      'Complete documentation about the Movie Catalog API, DTOs and how to use all endpoints of the application',
+    )
     .setVersion('1.0')
-    .addTag('movies')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

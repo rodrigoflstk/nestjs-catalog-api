@@ -10,6 +10,10 @@ import {
   UseGuards,
   Query,
   ParseUUIDPipe,
+  UseInterceptors,
+  CacheInterceptor,
+  CacheTTL,
+  CacheKey,
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from './dtos/create-movie.dto';
@@ -19,8 +23,11 @@ import { Movie } from './entities/movie.entity';
 import { User } from '../auth/user/entities/user.entity';
 import { GetMovieFilterDto } from './dtos/get-movie.dto';
 import { UpdateMovieDto } from './dtos/update-movie.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Movie - Endpoints')
 @Controller('movie')
+@UseInterceptors(CacheInterceptor)
 @UseGuards(AuthGuard())
 export class MovieController {
   private logger = new Logger('MovieService', { timestamp: true });
@@ -37,6 +44,8 @@ export class MovieController {
     return this.movieService.create(createMovieDto);
   }
 
+  @CacheTTL(5)
+  @CacheKey('custom_key')
   @Get('list/all')
   findAll(
     @Query() getMovieFilterDto: GetMovieFilterDto,
