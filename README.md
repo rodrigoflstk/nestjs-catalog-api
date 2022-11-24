@@ -4,7 +4,8 @@
 
 ## Description
 <p>
-  <a href="movie-catalog-api.herokuapp.com/api" Click here and check the API documentation</a>
+  <a href="movie-catalog-api.herokuapp.com/api"</a>
+  Click here and check the API documentation
 </p>
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
