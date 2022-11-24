@@ -3,7 +3,7 @@
 </p>
 
 ## Description
-<p align="center">
+<p>
   <a href="movie-catalog-api.herokuapp.com/api" Click here and check the API documentation</a>
 </p>
 
