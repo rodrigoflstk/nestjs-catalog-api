@@ -10,8 +10,6 @@ import {
   UseGuards,
   Query,
   ParseUUIDPipe,
-  UseInterceptors,
-  CacheInterceptor,
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from './dtos/create-movie.dto';
@@ -25,7 +23,6 @@ import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Movie - Endpoints')
 @Controller('movie')
-@UseInterceptors(CacheInterceptor)
 @UseGuards(AuthGuard())
 export class MovieController {
   private logger = new Logger('MovieService', { timestamp: true });
