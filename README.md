@@ -3,10 +3,8 @@
 </p>
 
 ## Description
-<p>
-  <a href="movie-catalog-api.herokuapp.com/api"</a>
-  Click here and check the API documentation
-</p>
+
+Check the API documentation here: https://movie-catalog-api.herokuapp.com/api
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
