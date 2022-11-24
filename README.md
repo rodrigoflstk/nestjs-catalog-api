@@ -3,7 +3,9 @@
 </p>
 
 ## Description
-You can see the API documentation at: movie-catalog-api.herokuapp.com/api
+<p align="center">
+  <a href="movie-catalog-api.herokuapp.com/api" Click here and check the API documentation</a>
+</p>
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
